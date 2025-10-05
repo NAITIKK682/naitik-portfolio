@@ -112,7 +112,7 @@ export default function ContactSection() {
                 name="name"
                 required
                 className="w-full px-4 py-3 rounded-md border border-input bg-background focus:outline-hidden focus:ring-2 focus:ring-primary"
-                placeholder="Jack Joyce"
+                placeholder="Naitik Kushwaha"
               />
 
               {/* Email */}
@@ -125,7 +125,7 @@ export default function ContactSection() {
                 name="email"
                 required
                 className="w-full px-4 py-3 rounded-md border border-input bg-background focus:outline-hidden focus:ring-2 focus:ring-primary"
-                placeholder="jackjoyce123@gmail.com"
+                placeholder="naitikk682@gmail.com"
               />
 
               {/* Message */}
