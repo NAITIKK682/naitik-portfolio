@@ -7,11 +7,10 @@ const projects = [
     description:
       "A modern, responsive website showcasing destinations and bookings. Built with HTML, CSS, and JavaScript.",
     image: "/projects/project1.png",
-    tags: ["HTML", "CSS", "Javascript", "Responsive Design"],
-    Live: "https://naitikk682.github.io/Responsive-Tour-And-Travel-website/",
-    githubUrl: "https://github.com/NAITIKK682/Responsive-Tour-And-Travel-website",
+    tags: ["HTML", "CSS", "JavaScript", "Responsive Design"],
+    liveUrl: "https://naitikk682.github.io/Responsive-Tour-And-Travel-website/", // ✅ Fixed: no spaces, consistent name
+    githubUrl: "https://github.com/NAITIKK682/Responsive-Tour-And-Travel-website", // ✅ Fixed: no spaces
   },
-
   {
     id: 2,
     title: "Fake News Detection",
@@ -21,17 +20,16 @@ const projects = [
     tags: ["HTML", "CSS", "JavaScript", "Bootstrap CSS", "Flask", "Python", "Machine Learning", "NLP"],
     githubUrl: "https://github.com/NAITIKK682/Fake-News-Detection-Flask",
   },
-
   {
     id: 3,
     title: "EHR System with AI Chatbot",
     description:
       "Electronic Health Record system with integrated AI chatbot for patient assistance and medical data management.",
     image: "/projects/project3.png",
-    tags: ["flask", "sqlite", "python", "AI Chatbot", "HTML", "CSS", "JavaScript" ],
+    tags: ["flask", "sqlite", "python", "AI Chatbot", "HTML", "CSS", "JavaScript"],
+    liveUrl: "https://ehr-system-2.onrender.com",
     githubUrl: "https://github.com/NAITIKK682/EHR-SYSTEM",
   },
-
   {
     id: 4,
     title: "Vehicle Price Prediction",
@@ -47,7 +45,6 @@ const projects = [
     ],
     githubUrl: "https://github.com/NAITIKK682/vehicle-price-prediction",
   },
-
   {
     id: 5,
     title: "Heart Disease Prediction",
@@ -57,7 +54,6 @@ const projects = [
     tags: ["Python", "Machine Learning", "Pandas", "Flask", "Scikit-learn"],
     githubUrl: "https://github.com/NAITIKK682/Heart-Disease-Prediction",
   },
-
   {
     id: 6,
     title: "Fraud Transaction Detection",
@@ -67,7 +63,6 @@ const projects = [
     tags: ["Python", "Imbalanced Data", "Machine Learning", "Flask", "Scikit-learn"],
     githubUrl: "https://github.com/NAITIKK682/Fraud-Transaction-Detection",
   },
-
 ];
 
 export default function ProjectsSection() {
@@ -75,7 +70,6 @@ export default function ProjectsSection() {
     <section id="projects" className="py-4 px-4 relative">
       <div className="container mx-auto max-w-5xl">
         <h2 className="text-3xl md:text-4xl font-bold mb-4 text-center">
-          {" "}
           Featured <span className="text-primary"> Projects </span>
         </h2>
 
@@ -100,7 +94,7 @@ export default function ProjectsSection() {
                 />
               </div>
 
-              <div className="p-6 ">
+              <div className="p-6">
                 <div className="flex flex-wrap gap-2 mb-4">
                   {project.tags.map((tag) => (
                     <span className="px-2 py-1 text-xs font-medium border rounded-full bg-primary/20 text-secondary-foreground">
@@ -110,30 +104,36 @@ export default function ProjectsSection() {
                 </div>
 
                 <h3 className="text-lg font-semibold mb-1">
-                  {" "}
-                  {project.title}{" "}
+                  {project.title}
                 </h3>
                 <p className="text-muted-foreground text-sm mb-4">
-                  {" "}
-                  {project.description}{" "}
+                  {project.description}
                 </p>
 
                 <div className="flex justify-between items-center">
                   <div className="flex space-x-3">
-                    <a
-                      href={project.demoUrl}
-                      target="_blank"
-                      className="text-foreground/80 hover:text-primary transition-colors duration-300"
-                    >
-                      <ExternalLink size={20} />
-                    </a>
-                    <a
-                      href={project.githubUrl}
-                      target="_blank"
-                      className="text-foreground/80 hover:text-primary transition-colors duration-300"
-                    >
-                      <Github size={20} />
-                    </a>
+                    {project.liveUrl && (
+                      <a
+                        href={project.liveUrl} // ✅ Now uses liveUrl
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        className="text-foreground/80 hover:text-primary transition-colors duration-300"
+                        aria-label="Live demo"
+                      >
+                        <ExternalLink size={20} />
+                      </a>
+                    )}
+                    {project.githubUrl && (
+                      <a
+                        href={project.githubUrl}
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        className="text-foreground/80 hover:text-primary transition-colors duration-300"
+                        aria-label="GitHub repository"
+                      >
+                        <Github size={20} />
+                      </a>
+                    )}
                   </div>
                 </div>
               </div>
@@ -145,6 +145,7 @@ export default function ProjectsSection() {
           <a
             href="https://github.com/NAITIKK682"
             target="_blank"
+            rel="noopener noreferrer"
             className="cosmic-button w-fit flex items-center mx-auto gap-2"
           >
             Check my Github <ArrowRight size={16} />
