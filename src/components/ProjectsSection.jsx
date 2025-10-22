@@ -63,6 +63,16 @@ const projects = [
     tags: ["Python", "Imbalanced Data", "Machine Learning", "Flask", "Scikit-learn"],
     githubUrl: "https://github.com/NAITIKK682/Fraud-Transaction-Detection",
   },
+  {
+    id: 7,
+    title: "Agri Smart 2.0",
+    description:
+      "AI-powered farming platform for modern India. Provides real-time crop advice, disease detection, smart irrigation, weather forecasts, and a digital marketplace. Supports bilingual AI assistant for farmers.",
+    image: "/projects/project7.png",
+    tags: ["Python", "Imbalanced Data", "Machine Learning", "Flask", "Scikit-learn"],
+    liveUrl: "https://agri-smart-2-0-hoh4n2d4g-naitikk682s-projects.vercel.app/",
+    githubUrl: "https://github.com/NAITIKK682/AgriSmart-2.0.git",
+  },
 ];
 
 export default function ProjectsSection() {
