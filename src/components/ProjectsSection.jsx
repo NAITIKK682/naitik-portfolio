@@ -70,8 +70,18 @@ const projects = [
       "AI-powered farming platform for modern India. Provides real-time crop advice, disease detection, smart irrigation, weather forecasts, and a digital marketplace. Supports bilingual AI assistant for farmers.",
     image: "/projects/project7.png",
     tags: ["Python", "Imbalanced Data", "Machine Learning", "Flask", "Scikit-learn"],
-    liveUrl: "https://agri-smart-2-0-hoh4n2d4g-naitikk682s-projects.vercel.app/",
+    liveUrl: "https://agri-smart-2-0.vercel.app/",
     githubUrl: "https://github.com/NAITIKK682/AgriSmart-2.0.git",
+  },
+  {
+    id: 8,
+    title: "TasteMelt Restaurant Website",
+    description:
+      "Built a responsive restaurant website with React, Vite, and Tailwind CSS, including Home, Menu, Contact, and Reserve pages.",
+    image: "/projects/project8.png",
+    tags: ["React", "Tailwind Css", "Vite", ],
+    liveUrl: "https://tastemelt.vercel.app/",
+    githubUrl: "https://github.com/NAITIKK682/TasteMelt-Restaurant-Website",
   },
 ];
 
