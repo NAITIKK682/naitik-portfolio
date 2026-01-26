@@ -76,17 +76,19 @@
     --primary-foreground: 210 40% 98%;
 
     --border: 214 32% 91%;
+    --muted-foreground: 222 47% 35%;
   }
   .dark {
     --background: 222 47% 4%;
-    --foreground: 213 31% 91%;
+    --foreground: 213 31% 98%;
 
-    --card: 222 47% 8%;
+    --card: 222 47% 10%;
 
-    --primary: 250 65% 65%;
-    --primary-foreground: 213 31% 91%;
+    --primary: 250 80% 70%;
+    --primary-foreground: 213 31% 98%;
 
     --border: 217 33% 20%;
+    --muted-foreground: 213 31% 88%;
   }
 
   * {

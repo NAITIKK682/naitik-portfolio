@@ -1,13 +1,16 @@
 import { useEffect, useState } from "react";
 import { Moon, Sun } from "lucide-react";
 import { cn } from "@/lib/utils";
+import { motion, AnimatePresence } from "framer-motion";
 
 export default function ThemeToggle() {
   const [isDarkMode, setIsDarkMode] = useState(false);
 
   useEffect(() => {
     const storedTheme = localStorage.getItem("theme");
-    if (storedTheme === "dark") {
+    const prefersDark = window.matchMedia("(prefers-color-scheme: dark)").matches;
+    
+    if (storedTheme === "dark" || (!storedTheme && prefersDark)) {
       setIsDarkMode(true);
       document.documentElement.classList.add("dark");
     } else {
@@ -32,15 +35,24 @@ export default function ThemeToggle() {
     <button
       onClick={toggleTheme}
       className={cn(
-        "fixed top-5 right-5 z-50 p-2 rounded-full transition-colors duration-300",
-        "focus:outline-none"
+        "p-2 rounded-full transition-all duration-300 relative bg-white/5 hover:bg-white/10 border border-white/10 group focus:outline-none"
       )}
     >
-      {isDarkMode ? (
-        <Sun className="h-6 w-6 text-yellow-300" />
-      ) : (
-        <Moon className="h-6 w-6 text-blue-900" />
-      )}
+      <AnimatePresence mode="wait">
+        <motion.div
+          key={isDarkMode ? "dark" : "light"}
+          initial={{ y: 5, opacity: 0, rotate: -40 }}
+          animate={{ y: 0, opacity: 1, rotate: 0 }}
+          exit={{ y: -5, opacity: 0, rotate: 40 }}
+          transition={{ duration: 0.2 }}
+        >
+          {isDarkMode ? (
+            <Sun className="h-5 w-5 text-yellow-400" />
+          ) : (
+            <Moon className="h-5 w-5 text-indigo-400" />
+          )}
+        </motion.div>
+      </AnimatePresence>
     </button>
   );
 }
