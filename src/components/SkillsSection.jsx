@@ -5,59 +5,50 @@ import StarBackground from "./StarBackground";
 
 import { 
   Code2, Terminal, Database, Cpu, Layout, Settings, 
-  BrainCircuit, Layers, Search, MousePointer2, ExternalLink,
-  ChevronRight, Sparkles, Box, ShieldCheck, Globe
+  Layers, Search, MousePointer2, ExternalLink,
+  ChevronRight, Sparkles, Box, ShieldCheck, Globe, Cloud
 } from "lucide-react";
 
 /* -------------------------------------------------------------------------- */
-/* DATA DEFINITION                                                            */
+/* DATA DEFINITION - Updated as per Resume                                    */
 /* -------------------------------------------------------------------------- */
 
 const skills = [
   // Frontend
   { name: "React.js", category: "Frontend", level: 90, icon: "R", color: "#61DAFB" },
-  { name: "Next.js", category: "Frontend", level: 85, icon: "N", color: "#ffffff" },
   { name: "Tailwind CSS", category: "Frontend", level: 95, icon: "T", color: "#38B2AC" },
   { name: "JavaScript", category: "Frontend", level: 92, icon: "J", color: "#F7DF1E" },
-  { name: "TypeScript", category: "Frontend", level: 80, icon: "TS", color: "#3178C6" },
   { name: "HTML5/CSS3", category: "Frontend", level: 98, icon: "H", color: "#E34F26" },
 
   // Backend
   { name: "Node.js", category: "Backend", level: 88, icon: "Node", color: "#339933" },
-  { name: "Flask", category: "Backend", level: 82, icon: "F", color: "#000000" },
-  { name: "Express.js", category: "Backend", level: 85, icon: "E", color: "#eeeeee" },
-  { name: "Auth & JWT", category: "Backend", level: 90, icon: "S", color: "#FF5733" },
-  { name: "RESTful APIs", category: "Backend", level: 94, icon: "API", color: "#007ACC" },
-
-  // AIML
-  { name: "Python", category: "AIML", level: 95, icon: "Py", color: "#3776AB" },
-  { name: "TensorFlow", category: "AIML", level: 78, icon: "TF", color: "#FF6F00" },
-  { name: "PyTorch", category: "AIML", level: 75, icon: "PT", color: "#EE4C2C" },
-  { name: "Scikit-Learn", category: "AIML", level: 85, icon: "SK", color: "#F7931E" },
-  { name: "Deep Learning", category: "AIML", level: 80, icon: "DL", color: "#9C27B0" },
-  { name: "Computer Vision", category: "AIML", level: 70, icon: "CV", color: "#4CAF50" },
+  { name: "Python (Flask)", category: "Backend", level: 85, icon: "Py", color: "#3776AB" },
+  { name: "REST APIs", category: "Backend", level: 94, icon: "API", color: "#007ACC" },
+  { name: "Auth & Security", category: "Backend", level: 85, icon: "S", color: "#FF5733" },
 
   // Database
-  { name: "MySQL", category: "Database", level: 85, icon: "SQL", color: "#4479A1" },
-  { name: "MongoDB", category: "Database", level: 82, icon: "DB", color: "#47A248" },
-  { name: "PostgreSQL", category: "Database", level: 75, icon: "PS", color: "#336791" },
+  { name: "SQL", category: "Database", level: 85, icon: "SQL", color: "#4479A1" },
+  { name: "PostgreSQL", category: "Database", level: 80, icon: "PS", color: "#336791" },
 
-  // Tools & OS
-  { name: "Git/Github", category: "tools", level: 92, icon: "G", color: "#F05032" },
-  { name: "Docker", category: "tools", level: 65, icon: "D", color: "#2496ED" },
-  { name: "Linux (Ubuntu)", category: "OS", level: 88, icon: "L", color: "#FCC624" },
-  { name: "VS Code", category: "tools", level: 95, icon: "V", color: "#007ACC" },
-  { name: "Bash Scripting", category: "OS", level: 80, icon: "B", color: "#4EAA25" },
+  // Cloud & Deployment
+  { name: "AWS", category: "Cloud", level: 75, icon: "AWS", color: "#FF9900" },
+  { name: "Vercel", category: "Cloud", level: 85, icon: "Vc", color: "#000000" },
+  { name: "Render", category: "Cloud", level: 80, icon: "Rd", color: "#46E3B7" },
+  { name: "Google Cloud", category: "Cloud", level: 70, icon: "GC", color: "#4285F4" },
+
+  // Tools
+  { name: "Git/GitHub", category: "Tools", level: 92, icon: "G", color: "#F05032" },
+  { name: "VS Code", category: "Tools", level: 95, icon: "V", color: "#007ACC" },
+  { name: "Google Colab", category: "Tools", level: 85, icon: "Col", color: "#F9AB00" },
 ];
 
 const categories = [
   { id: "All", icon: Layers, desc: "Complete Technical Stack" },
-  { id: "Frontend", icon: Layout, desc: "UI/UX & Web Engines" },
-  { id: "Backend", icon: Code2, desc: "Server Logic & Security" },
-  { id: "AIML", icon: BrainCircuit, desc: "Neural Networks & Math" },
-  { id: "Database", icon: Database, desc: "Data Storage & Architecture" },
-  { id: "tools", icon: Settings, desc: "Workflow & Dev Environment" },
-  { id: "OS", icon: Cpu, desc: "System Administration" },
+  { id: "Frontend", icon: Layout, desc: "UI/UX & Web Development" },
+  { id: "Backend", icon: Code2, desc: "Server Logic & APIs" },
+  { id: "Database", icon: Database, desc: "Data Management" },
+  { id: "Cloud", icon: Cloud, desc: "Deployment & Cloud Services" },
+  { id: "Tools", icon: Settings, desc: "Development Tools" },
 ];
 
 /* -------------------------------------------------------------------------- */
@@ -101,7 +92,7 @@ const SkillCard = ({ skill }) => {
       onMouseMove={handleMouseMove}
       onMouseLeave={handleMouseLeave}
       style={{ rotateX, rotateY, transformStyle: "preserve-3d" }}
-      className="group relative p-6 rounded-2xl bg-secondary/10 border border-white/5 hover:border-primary/40 transition-colors duration-500 backdrop-blur-sm"
+      className="group relative p-6 rounded-2xl bg-white/8 border border-white/20 hover:border-primary/60 transition-colors duration-500 backdrop-blur-sm"
     >
       <div style={{ transform: "translateZ(50px)" }} className="flex flex-col h-full">
         <div className="flex justify-between items-start mb-4">
@@ -111,18 +102,18 @@ const SkillCard = ({ skill }) => {
           >
             {skill.icon}
           </div>
-          <div className="text-[10px] font-bold py-1 px-2 rounded-md bg-white/5 text-muted-foreground uppercase tracking-tighter">
+          <div className="text-[10px] font-bold py-1 px-2 rounded-md bg-white/15 text-white border border-white/20 uppercase tracking-tighter">
             {skill.category}
           </div>
         </div>
 
-        <h3 className="font-bold text-lg text-foreground mb-1 group-hover:text-primary transition-colors">
+        <h3 className="font-bold text-lg text-white mb-1 group-hover:text-primary transition-colors">
           {skill.name}
         </h3>
 
         {/* Progress Bar */}
         <div className="mt-auto pt-4">
-          <div className="flex justify-between text-[10px] mb-1 font-bold uppercase opacity-60">
+          <div className="flex justify-between text-[10px] mb-1 font-bold uppercase text-white/80">
             <span>Proficiency</span>
             <span>{skill.level}%</span>
           </div>
@@ -209,19 +200,19 @@ export default function SkillsSection() {
             whileInView={{ opacity: 1, y: 0 }}
             className="relative min-w-[300px]"
           >
-            <Search className="absolute left-4 top-1/2 -translate-y-1/2 text-muted-foreground w-4 h-4" />
+            <Search className="absolute left-4 top-1/2 -translate-y-1/2 text-white/60 w-4 h-4" />
             <input 
               type="text"
               placeholder="Search technologies..."
               value={searchQuery}
               onChange={(e) => setSearchQuery(e.target.value)}
-              className="w-full bg-secondary/20 border border-white/10 rounded-xl py-4 pl-12 pr-4 text-sm focus:outline-none focus:border-primary/50 transition-all backdrop-blur-md text-white"
+              className="w-full bg-white/5 border border-white/20 rounded-xl py-4 pl-12 pr-4 text-sm focus:outline-none focus:border-primary/50 transition-all backdrop-blur-md text-white placeholder:text-white/50"
             />
           </motion.div>
         </div>
 
         {/* --- CATEGORY SELECTOR --- */}
-        <div className="grid grid-cols-2 sm:grid-cols-4 lg:grid-cols-7 gap-4 mb-16">
+        <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-6 gap-4 mb-16">
           {categories.map((cat, idx) => {
             const Icon = cat.icon;
             const isActive = activeCategory === cat.id;
@@ -236,7 +227,7 @@ export default function SkillsSection() {
                   "relative flex flex-col items-center justify-center p-6 rounded-2xl border transition-all duration-300 group backdrop-blur-sm",
                   isActive 
                     ? "bg-primary border-primary text-primary-foreground shadow-2xl shadow-primary/20" 
-                    : "bg-secondary/10 border-white/5 text-muted-foreground hover:bg-secondary/20 hover:border-white/20"
+                    : "bg-white/8 border-white/20 text-white/80 hover:bg-white/12 hover:border-white/30"
                 )}
               >
                 <Icon className={cn("mb-3 transition-transform duration-500", !isActive && "text-primary group-hover:scale-110")} size={24} />
@@ -273,11 +264,11 @@ export default function SkillsSection() {
             animate={{ opacity: 1 }}
             className="py-32 text-center"
           >
-            <div className="inline-flex p-6 rounded-full bg-secondary/20 mb-6">
-              <MousePointer2 className="w-12 h-12 text-muted-foreground opacity-20" />
+            <div className="inline-flex p-6 rounded-full bg-white/10 border border-white/20 mb-6">
+              <MousePointer2 className="w-12 h-12 text-white/60" />
             </div>
-            <h3 className="text-xl font-bold text-muted-foreground">No matching technologies found</h3>
-            <p className="text-sm text-muted-foreground/60">Try refining your search or category filter.</p>
+            <h3 className="text-xl font-bold text-white/80">No matching technologies found</h3>
+            <p className="text-sm text-white/70">Try refining your search or category filter.</p>
           </motion.div>
         )}
 
@@ -285,22 +276,22 @@ export default function SkillsSection() {
         <motion.div 
           initial={{ opacity: 0 }}
           whileInView={{ opacity: 1 }}
-          className="mt-24 pt-8 border-t border-white/5 flex flex-wrap justify-between items-center gap-8"
+          className="mt-24 pt-8 border-t border-white/20 flex flex-wrap justify-between items-center gap-8"
         >
           <div className="flex gap-12">
             <div>
               <div className="text-3xl font-black text-white">{skills.length}+</div>
-              <div className="text-[10px] uppercase font-bold text-muted-foreground tracking-widest">Technologies</div>
+              <div className="text-[10px] uppercase font-bold text-white/80 tracking-widest">Technologies</div>
             </div>
             <div>
               <div className="text-3xl font-black text-white">{categories.length - 1}</div>
-              <div className="text-[10px] uppercase font-bold text-muted-foreground tracking-widest">Specializations</div>
+              <div className="text-[10px] uppercase font-bold text-white/80 tracking-widest">Specializations</div>
             </div>
           </div>
           
           <div className="flex items-center gap-4 px-6 py-3 bg-primary/5 rounded-full border border-primary/10">
             <Sparkles className="w-4 h-4 text-primary animate-pulse" />
-            <span className="text-xs font-medium text-primary">Constantly evolving with the latest AIML trends</span>
+            <span className="text-xs font-medium text-primary">Full Stack Developer & AIML Enthusiast</span>
           </div>
         </motion.div>
       </div>
