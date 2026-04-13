@@ -6,11 +6,12 @@ import StarBackground from "./StarBackground";
 import { 
   Code2, Terminal, Database, Cpu, Layout, Settings, 
   Layers, Search, MousePointer2, ExternalLink,
-  ChevronRight, Sparkles, Box, ShieldCheck, Globe, Cloud
+  ChevronRight, Sparkles, Box, ShieldCheck, Globe, Cloud,
+  BarChart3, FileSpreadsheet
 } from "lucide-react";
 
 /* -------------------------------------------------------------------------- */
-/* DATA DEFINITION - Updated as per Resume                                    */
+/* DATA DEFINITION - Updated as per Request                                   */
 /* -------------------------------------------------------------------------- */
 
 const skills = [
@@ -34,16 +35,16 @@ const skills = [
   { name: "AWS", category: "Cloud", level: 75, icon: "AWS", color: "#FF9900" },
   { name: "Vercel", category: "Cloud", level: 85, icon: "Vc", color: "#000000" },
   { name: "Render", category: "Cloud", level: 80, icon: "Rd", color: "#46E3B7" },
-  { name: "Google Cloud", category: "Cloud", level: 70, icon: "GC", color: "#4285F4" },
 
   // Tools
   { name: "Git/GitHub", category: "Tools", level: 92, icon: "G", color: "#F05032" },
   { name: "VS Code", category: "Tools", level: 95, icon: "V", color: "#007ACC" },
   { name: "Google Colab", category: "Tools", level: 85, icon: "Col", color: "#F9AB00" },
+  { name: "MS Excel", category: "Tools", level: 88, icon: "Xl", color: "#217346" },
+  { name: "Power BI", category: "Tools", level: 82, icon: "Pb", color: "#F2C811" },
 ];
 
 const categories = [
-  { id: "All", icon: Layers, desc: "Complete Technical Stack" },
   { id: "Frontend", icon: Layout, desc: "UI/UX & Web Development" },
   { id: "Backend", icon: Code2, desc: "Server Logic & APIs" },
   { id: "Database", icon: Database, desc: "Data Management" },
@@ -111,7 +112,6 @@ const SkillCard = ({ skill }) => {
           {skill.name}
         </h3>
 
-        {/* Progress Bar */}
         <div className="mt-auto pt-4">
           <div className="flex justify-between text-[10px] mb-1 font-bold uppercase text-white/80">
             <span>Proficiency</span>
@@ -128,7 +128,6 @@ const SkillCard = ({ skill }) => {
         </div>
       </div>
 
-      {/* Background Glow Overlay */}
       <div 
         className="absolute inset-0 rounded-2xl opacity-0 group-hover:opacity-10 transition-opacity duration-500 pointer-events-none"
         style={{ background: `radial-gradient(circle at center, ${skill.color}, transparent)` }}
@@ -142,7 +141,7 @@ const SkillCard = ({ skill }) => {
 /* -------------------------------------------------------------------------- */
 
 export default function SkillsSection() {
-  const [activeCategory, setActiveCategory] = useState("All");
+  const [activeCategory, setActiveCategory] = useState("Frontend");
   const [searchQuery, setSearchQuery] = useState("");
   const [mounted, setMounted] = useState(false);
 
@@ -150,7 +149,7 @@ export default function SkillsSection() {
 
   const filteredSkills = useMemo(() => {
     return skills.filter((skill) => {
-      const matchesCategory = activeCategory === "All" || skill.category === activeCategory;
+      const matchesCategory = skill.category === activeCategory;
       const matchesSearch = skill.name.toLowerCase().includes(searchQuery.toLowerCase());
       return matchesCategory && matchesSearch;
     });
@@ -161,10 +160,8 @@ export default function SkillsSection() {
   return (
     <section id="skills" className="py-32 px-4 relative min-h-screen bg-background overflow-hidden">
       
-      {/* --- STAR BACKGROUND INTEGRATION --- */}
       <StarBackground />
 
-      {/* --- PRE-RENDERED DECORATIONS (AURORA) --- */}
       <div className="absolute top-0 left-0 w-full h-full pointer-events-none z-0">
         <div className="absolute top-[-10%] left-[-10%] w-[40%] h-[40%] bg-primary/10 blur-[120px] rounded-full opacity-50" />
         <div className="absolute bottom-[-10%] right-[-10%] w-[40%] h-[40%] bg-violet-600/10 blur-[120px] rounded-full opacity-50" />
@@ -172,7 +169,6 @@ export default function SkillsSection() {
 
       <div className="container mx-auto max-w-7xl relative z-10">
         
-        {/* --- HEADER BLOCK --- */}
         <div className="flex flex-col lg:flex-row lg:items-end justify-between gap-8 mb-20">
           <div className="max-w-2xl text-left">
             <motion.div
@@ -211,8 +207,7 @@ export default function SkillsSection() {
           </motion.div>
         </div>
 
-        {/* --- CATEGORY SELECTOR --- */}
-        <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-6 gap-4 mb-16">
+        <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-5 gap-4 mb-16">
           {categories.map((cat, idx) => {
             const Icon = cat.icon;
             const isActive = activeCategory === cat.id;
@@ -245,7 +240,6 @@ export default function SkillsSection() {
           })}
         </div>
 
-        {/* --- GRID DISPLAY --- */}
         <motion.div 
           layout
           className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6"
@@ -257,7 +251,6 @@ export default function SkillsSection() {
           </AnimatePresence>
         </motion.div>
 
-        {/* --- EMPTY STATE --- */}
         {filteredSkills.length === 0 && (
           <motion.div 
             initial={{ opacity: 0 }} 
@@ -272,7 +265,6 @@ export default function SkillsSection() {
           </motion.div>
         )}
 
-        {/* --- FOOTER STATS --- */}
         <motion.div 
           initial={{ opacity: 0 }}
           whileInView={{ opacity: 1 }}
@@ -284,14 +276,9 @@ export default function SkillsSection() {
               <div className="text-[10px] uppercase font-bold text-white/80 tracking-widest">Technologies</div>
             </div>
             <div>
-              <div className="text-3xl font-black text-white">{categories.length - 1}</div>
+              <div className="text-3xl font-black text-white">{categories.length}</div>
               <div className="text-[10px] uppercase font-bold text-white/80 tracking-widest">Specializations</div>
             </div>
-          </div>
-          
-          <div className="flex items-center gap-4 px-6 py-3 bg-primary/5 rounded-full border border-primary/10">
-            <Sparkles className="w-4 h-4 text-primary animate-pulse" />
-            <span className="text-xs font-medium text-primary">Full Stack Developer & AIML Enthusiast</span>
           </div>
         </motion.div>
       </div>
