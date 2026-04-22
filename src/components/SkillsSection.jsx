@@ -41,7 +41,6 @@ const skills = [
   { name: "VS Code", category: "Tools", level: 95, icon: "V", color: "#007ACC" },
   { name: "Google Colab", category: "Tools", level: 85, icon: "Col", color: "#F9AB00" },
   { name: "MS Excel", category: "Tools", level: 88, icon: "Xl", color: "#217346" },
-  { name: "Power BI", category: "Tools", level: 82, icon: "Pb", color: "#F2C811" },
 ];
 
 const categories = [

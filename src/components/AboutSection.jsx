@@ -1,10 +1,26 @@
 import React, { useState } from "react";
-import { Briefcase, GraduationCap, Sparkles, ExternalLink, FileText, ChevronDown, Award, Zap } from "lucide-react";
+import {
+  Briefcase,
+  GraduationCap,
+  Sparkles,
+  ExternalLink,
+  FileText,
+  ChevronDown,
+  Award,
+  Zap,
+} from "lucide-react";
 import { motion, AnimatePresence } from "framer-motion";
-import StarBackground from "./StarBackground"; 
+import StarBackground from "./StarBackground";
 
 /* --- Reusable Expandable Card --- */
-const ExpandableItem = ({ title, subtitle, duration, details, skills, icon: Icon }) => {
+const ExpandableItem = ({
+  title,
+  subtitle,
+  duration,
+  details,
+  skills,
+  icon: Icon,
+}) => {
   const [isOpen, setIsOpen] = useState(false);
 
   return (
@@ -12,21 +28,27 @@ const ExpandableItem = ({ title, subtitle, duration, details, skills, icon: Icon
       layout
       onClick={() => setIsOpen(!isOpen)}
       className={`relative cursor-pointer group p-[1px] rounded-2xl transition-all duration-500 ${
-        isOpen 
-          ? "bg-gradient-to-br from-primary via-violet-500 to-primary/40 shadow-[0_0_30px_rgba(var(--primary),0.3)]" 
+        isOpen
+          ? "bg-gradient-to-br from-primary via-violet-500 to-primary/40 shadow-[0_0_30px_rgba(var(--primary),0.3)]"
           : "bg-gradient-to-br from-white/30 to-transparent hover:from-white/50"
       }`}
     >
       <div className="relative p-5 bg-slate-900/90 backdrop-blur-2xl rounded-[15px] h-full overflow-hidden border border-white/5">
         <div className="flex items-start gap-4">
-          <div className={`p-3 rounded-xl transition-all duration-300 ${isOpen ? "bg-primary text-white shadow-lg shadow-primary/20" : "bg-primary/20 text-primary-foreground border border-primary/30"}`}>
+          <div
+            className={`p-3 rounded-xl transition-all duration-300 ${isOpen ? "bg-primary text-white shadow-lg shadow-primary/20" : "bg-primary/20 text-primary-foreground border border-primary/30"}`}
+          >
             <Icon className="h-5 w-5" />
           </div>
           <div className="flex-1 text-left">
             <div className="flex justify-between items-start">
               <div>
-                <h4 className="font-bold text-lg text-white leading-tight tracking-tight">{title}</h4>
-                <p className="text-sm text-primary font-semibold mt-1 brightness-125">{subtitle}</p>
+                <h4 className="font-bold text-lg text-white leading-tight tracking-tight">
+                  {title}
+                </h4>
+                <p className="text-sm text-primary font-semibold mt-1 brightness-125">
+                  {subtitle}
+                </p>
               </div>
               <motion.div
                 animate={{ rotate: isOpen ? 180 : 0 }}
@@ -54,7 +76,10 @@ const ExpandableItem = ({ title, subtitle, duration, details, skills, icon: Icon
                   </p>
                   <div className="flex flex-wrap gap-2">
                     {skills.map((skill) => (
-                      <span key={skill} className="text-[10px] px-2.5 py-1 rounded-md bg-primary/20 border border-primary/40 text-white font-bold tracking-wide uppercase">
+                      <span
+                        key={skill}
+                        className="text-[10px] px-2.5 py-1 rounded-md bg-primary/20 border border-primary/40 text-white font-bold tracking-wide uppercase"
+                      >
                         {skill}
                       </span>
                     ))}
@@ -77,7 +102,11 @@ export default function AboutSection() {
 
   const itemVariants = {
     hidden: { y: 20, opacity: 0 },
-    visible: { y: 0, opacity: 1, transition: { type: "spring", stiffness: 100 } },
+    visible: {
+      y: 0,
+      opacity: 1,
+      transition: { type: "spring", stiffness: 100 },
+    },
   };
 
   const education = [
@@ -86,40 +115,47 @@ export default function AboutSection() {
       subtitle: "Universal College of Engineering",
       duration: "2023 – 2027",
       icon: GraduationCap,
-      details: "Focusing on Neural Networks, Deep Learning, and Computational Intelligence. Maintaining excellence in both core engineering and AI specializations.",
-      skills: ["Neural Networks", "Python", "Data Structures", "TensorFlow"]
+      details:
+        "Focusing on Neural Networks, Deep Learning, and Computational Intelligence. Maintaining excellence in both core engineering and AI specializations.",
+      skills: ["Neural Networks", "Python", "Data Structures", "TensorFlow"],
     },
     {
       title: "Diploma in Cloud & Cyber Security",
       subtitle: "Jetking Vasai",
       duration: "2022 – 2024",
       icon: Zap,
-      details: "Professional certification covering AWS architecture, network security protocols, and Linux administration.",
-      skills: ["AWS", "Networking", "Cyber Security", "Linux"]
-    }
+      details:
+        "Professional certification covering AWS architecture, network security protocols, and Linux administration.",
+      skills: ["AWS", "Networking", "Cyber Security", "Linux"],
+    },
   ];
 
   const experience = [
     {
       title: "Machine Learning Intern",
       subtitle: "Unified Mentor Pvt. Ltd",
-      duration: "Sep 2025 – Dec 2025",
+      duration: "Oct 2025 – Jan 2026",
       icon: Briefcase,
-      details: "Spearheaded predictive model development and optimized data pipelines, achieving a 15% increase in model accuracy.",
-      skills: ["Scikit-Learn", "Pandas", "Feature Engineering", "Data Viz"]
+      details:
+        "Spearheaded predictive model development and optimized data pipelines, achieving a 15% increase in model accuracy.",
+      skills: ["Scikit-Learn", "Pandas", "Feature Engineering", "Data Viz"],
     },
     {
       title: "Python Development Intern",
       subtitle: "Techno Hacks EduTech",
       duration: "Aug 2025 – Sep 2025",
       icon: Briefcase,
-      details: "Developed backend automation scripts and contributed to core internal tool APIs using Flask and Python.",
-      skills: ["Flask", "Automation", "SQL", "Python"]
-    }
+      details:
+        "Developed backend automation scripts and contributed to core internal tool APIs using Flask and Python.",
+      skills: ["Flask", "Automation", "SQL", "Python"],
+    },
   ];
 
   return (
-    <section id="about" className="py-24 px-4 relative overflow-hidden bg-slate-950">
+    <section
+      id="about"
+      className="py-24 px-4 relative overflow-hidden bg-slate-950"
+    >
       <StarBackground />
 
       <div className="absolute inset-0 z-0 pointer-events-none">
@@ -139,7 +175,10 @@ export default function AboutSection() {
             <Sparkles className="w-3.5 h-3.5" /> Who I Am
           </span>
           <h2 className="text-4xl md:text-5xl font-extrabold tracking-tight text-white">
-            About <span className="text-transparent bg-clip-text bg-gradient-to-r from-primary via-violet-400 to-primary">Me</span>
+            About{" "}
+            <span className="text-transparent bg-clip-text bg-gradient-to-r from-primary via-violet-400 to-primary">
+              Me
+            </span>
           </h2>
         </motion.div>
 
@@ -150,29 +189,62 @@ export default function AboutSection() {
               Passionate Full Stack Developer & <br />
               <span className="text-primary brightness-110 relative inline-block">
                 AIML Enthusiast
-                <svg className="absolute w-full h-2 bottom-0 left-0 text-primary opacity-50" viewBox="0 0 100 10" preserveAspectRatio="none">
-                  <path d="M0 5 Q 50 10 100 5" stroke="currentColor" strokeWidth="3" fill="none" />
+                <svg
+                  className="absolute w-full h-2 bottom-0 left-0 text-primary opacity-50"
+                  viewBox="0 0 100 10"
+                  preserveAspectRatio="none"
+                >
+                  <path
+                    d="M0 5 Q 50 10 100 5"
+                    stroke="currentColor"
+                    strokeWidth="3"
+                    fill="none"
+                  />
                 </svg>
               </span>
             </h3>
 
             <div className="space-y-6 text-lg text-slate-300 leading-relaxed font-medium">
               <p>
-                Hello! I'm <span className="text-white font-bold decoration-primary/50 underline-offset-4 underline">Naitik Kushwaha</span>, a third-year student specializing in AI & ML. My journey is defined by bridging the gap between intelligent algorithms and user-centric interfaces.
+                I'm{" "}
+                <span className="text-white font-bold decoration-primary/50 underline-offset-4 underline">
+                  Naitik Kushwaha
+                </span>
+                , a B.E. AI & ML student with{" "}
+                <span className="font-semibold text-primary">
+                  2 internships, 5+ live projects
+                </span>
+                , and a proven track record of delivering high-impact solutions.
+                I specialize in building scalable full-stack applications with
+                React.js & Node.js, and training deep learning models achieving{" "}
+                <span className="font-semibold text-primary">
+                  87–94% accuracy
+                </span>
+                .
               </p>
               <p>
-                Whether it's building scalable full-stack applications or training deep learning models, I strive for clean code and high-impact solutions that move the needle.
+                My internships transformed complex processes: I cut manual
+                review time by{" "}
+                <span className="font-semibold text-primary">60%</span> with NLP
+                models, improved data pipelines by{" "}
+                <span className="font-semibold text-primary">40%</span>, and
+                delivered production-grade code. Whether architecting secure EHR
+                systems, deploying AI-powered crop detection at scale, or
+                crafting premium digital experiences, I bridge intelligent
+                algorithms with user-centric interfaces—obsessed with clean code
+                and measurable impact.
               </p>
             </div>
 
-            <div className="flex flex-col sm:flex-row gap-5 pt-4">
+            <div className="flex flex-col sm:flex-row gap-5 pt-4 w-full justify-center items-center">
               <motion.a
                 href="#contact"
                 whileHover={{ scale: 1.05, translateY: -2 }}
                 whileTap={{ scale: 0.95 }}
                 className="group relative px-8 py-3.5 bg-primary text-white rounded-full font-bold overflow-hidden shadow-[0_0_20px_rgba(var(--primary),0.3)] flex items-center justify-center gap-2 transition-all"
               >
-                Get In Touch <ExternalLink className="w-4 h-4 transition-transform group-hover:translate-x-1" />
+                Get In Touch{" "}
+                <ExternalLink className="w-4 h-4 transition-transform group-hover:translate-x-1" />
               </motion.a>
 
               <motion.a
@@ -194,7 +266,9 @@ export default function AboutSection() {
                 <div className="p-2 bg-primary/10 rounded-lg border border-primary/20">
                   <GraduationCap className="text-primary h-6 w-6" />
                 </div>
-                <h4 className="text-2xl font-bold text-white tracking-tight">Education</h4>
+                <h4 className="text-2xl font-bold text-white tracking-tight">
+                  Education
+                </h4>
               </div>
               <div className="grid gap-4">
                 {education.map((edu, i) => (
@@ -208,7 +282,9 @@ export default function AboutSection() {
                 <div className="p-2 bg-primary/10 rounded-lg border border-primary/20">
                   <Briefcase className="text-primary h-6 w-6" />
                 </div>
-                <h4 className="text-2xl font-bold text-white tracking-tight">Work Experience</h4>
+                <h4 className="text-2xl font-bold text-white tracking-tight">
+                  Work Experience
+                </h4>
               </div>
               <div className="grid gap-4">
                 {experience.map((exp, i) => (

@@ -45,7 +45,7 @@ export default function Navbar() {
           </div>
           <div className="flex flex-col">
             <span className="text-xl font-black tracking-tighter text-white leading-none">NAITIK</span>
-            <span className="text-[10px] font-bold text-primary uppercase tracking-[0.3em] leading-none mt-1">Dev</span>
+            <span className="text-[10px] font-bold text-primary uppercase tracking-[0.3em] leading-none mt-1">Kushwaha</span>
           </div>
         </a>
 

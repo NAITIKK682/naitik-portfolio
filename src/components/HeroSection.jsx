@@ -62,7 +62,7 @@ export default function HeroSection() {
             initial={{ scale: 0.8, opacity: 0 }}
             animate={{ scale: 1, opacity: 1 }}
             transition={{ duration: 1, ease: [0.21, 0.47, 0.32, 0.98] }}
-            className="relative"
+            className="relative mt-10 md:mt-14"
           >
             {/* Animated Glow Behind Image */}
             <motion.div 
