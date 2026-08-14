@@ -1,58 +1,101 @@
 import React, { useState, useMemo, useEffect } from "react";
-import { motion, AnimatePresence, useMotionValue, useSpring, useTransform } from "framer-motion";
+import {
+  motion,
+  AnimatePresence,
+  useMotionValue,
+  useSpring,
+  useTransform,
+} from "framer-motion";
 import { cn } from "@/lib/utils";
-import StarBackground from "./StarBackground"; 
+import StarBackground from "./StarBackground";
 
-import { 
-  Code2, Terminal, Database, Cpu, Layout, Settings, 
-  Layers, Search, MousePointer2, ExternalLink,
-  ChevronRight, Sparkles, Box, ShieldCheck, Globe, Cloud,
-  BarChart3, FileSpreadsheet
+import {
+  Code2,
+  Database,
+  Cpu,
+  Layout,
+  Settings,
+  Cloud,
+  Search,
+  MousePointer2,
+  Zap,
+  Globe,
+  Terminal,
+  ShieldCheck,
+  Workflow,
+  Key,
+  Layers,
+  Box,
+  FileSpreadsheet,
 } from "lucide-react";
 
 /* -------------------------------------------------------------------------- */
-/* DATA DEFINITION - Updated as per Request                                   */
+/* DATA DEFINITION - Safe & Reliable Icon Mapping                             */
 /* -------------------------------------------------------------------------- */
 
 const skills = [
-  // Frontend
-  { name: "React.js", category: "Frontend", level: 90, icon: "R", color: "#61DAFB" },
-  { name: "Tailwind CSS", category: "Frontend", level: 95, icon: "T", color: "#38B2AC" },
-  { name: "JavaScript", category: "Frontend", level: 92, icon: "J", color: "#F7DF1E" },
-  { name: "HTML5/CSS3", category: "Frontend", level: 98, icon: "H", color: "#E34F26" },
+  // 1. Frontend
+  { name: "React.js", category: "Frontend", level: 92, icon: Layout, color: "#61DAFB" },
+  { name: "JavaScript", category: "Frontend", level: 90, icon: Code2, color: "#F7DF1E" },
+  { name: "Tailwind CSS", category: "Frontend", level: 95, icon: Layers, color: "#38B2AC" },
+  { name: "HTML5/CSS3", category: "Frontend", level: 98, icon: Globe, color: "#E34F26" },
+  { name: "Vite", category: "Frontend", level: 88, icon: Zap, color: "#646CFF" },
 
-  // Backend
-  { name: "Node.js", category: "Backend", level: 88, icon: "Node", color: "#339933" },
-  { name: "Python (Flask)", category: "Backend", level: 85, icon: "Py", color: "#3776AB" },
-  { name: "REST APIs", category: "Backend", level: 94, icon: "API", color: "#007ACC" },
-  { name: "Auth & Security", category: "Backend", level: 85, icon: "S", color: "#FF5733" },
+  // 2. Backend
+  { name: "Node.js", category: "Backend", level: 88, icon: Terminal, color: "#339933" },
+  { name: "Express.js", category: "Backend", level: 86, icon: Terminal, color: "#CCCCCC" },
+  { name: "Python", category: "Backend", level: 90, icon: Code2, color: "#3776AB" },
+  { name: "Flask", category: "Backend", level: 85, icon: Box, color: "#CCCCCC" },
+  { name: "REST APIs", category: "Backend", level: 94, icon: Workflow, color: "#007ACC" },
+  { name: "JWT Authentication", category: "Backend", level: 88, icon: Key, color: "#FF5733" },
 
-  // Database
-  { name: "SQL", category: "Database", level: 85, icon: "SQL", color: "#4479A1" },
-  { name: "PostgreSQL", category: "Database", level: 80, icon: "PS", color: "#336791" },
+  // 3. Database
+  { name: "MongoDB", category: "Database", level: 85, icon: Database, color: "#47A248" },
+  { name: "PostgreSQL", category: "Database", level: 82, icon: Database, color: "#336791" },
+  { name: "SQL", category: "Database", level: 88, icon: Database, color: "#4479A1" },
+  { name: "Supabase", category: "Database", level: 80, icon: Zap, color: "#3ECF8E" },
 
-  // Cloud & Deployment
-  { name: "AWS", category: "Cloud", level: 75, icon: "AWS", color: "#FF9900" },
-  { name: "Vercel", category: "Cloud", level: 85, icon: "Vc", color: "#000000" },
-  { name: "Render", category: "Cloud", level: 80, icon: "Rd", color: "#46E3B7" },
+  // 4. AI / ML
+  { name: "Python (AI)", category: "AI / ML", level: 92, icon: Cpu, color: "#3776AB" },
+  { name: "TensorFlow", category: "AI / ML", level: 85, icon: Cpu, color: "#FF6F00" },
+  { name: "Scikit-learn", category: "AI / ML", level: 88, icon: Cpu, color: "#F7931E" },
+  { name: "OpenCV", category: "AI / ML", level: 80, icon: Cpu, color: "#5C3EE8" },
+  { name: "NumPy", category: "AI / ML", level: 90, icon: FileSpreadsheet, color: "#013243" },
+  { name: "Pandas", category: "AI / ML", level: 90, icon: FileSpreadsheet, color: "#150458" },
+  { name: "CNN", category: "AI / ML", level: 85, icon: Cpu, color: "#8E44AD" },
 
-  // Tools
-  { name: "Git/GitHub", category: "Tools", level: 92, icon: "G", color: "#F05032" },
-  { name: "VS Code", category: "Tools", level: 95, icon: "V", color: "#007ACC" },
-  { name: "Google Colab", category: "Tools", level: 85, icon: "Col", color: "#F9AB00" },
-  { name: "MS Excel", category: "Tools", level: 88, icon: "Xl", color: "#217346" },
+  // 5. Cloud & DevOps
+  { name: "AWS", category: "Cloud & DevOps", level: 78, icon: Cloud, color: "#FF9900" },
+  { name: "Vercel", category: "Cloud & DevOps", level: 92, icon: Cloud, color: "#FFFFFF" },
+  { name: "Render", category: "Cloud & DevOps", level: 85, icon: Cloud, color: "#46E3B7" },
+  { name: "CI/CD", category: "Cloud & DevOps", level: 80, icon: Workflow, color: "#2088FF" },
+
+  // 6. APIs & Integration
+  { name: "REST API", category: "APIs & Integration", level: 95, icon: Workflow, color: "#007ACC" },
+  { name: "Razorpay", category: "APIs & Integration", level: 88, icon: ShieldCheck, color: "#0C2340" },
+  { name: "Groq API", category: "APIs & Integration", level: 90, icon: Zap, color: "#F36421" },
+
+  // 7. Tools
+  { name: "Git", category: "Tools", level: 92, icon: Settings, color: "#F05032" },
+  { name: "GitHub", category: "Tools", level: 94, icon: Settings, color: "#FFFFFF" },
+  { name: "VS Code", category: "Tools", level: 96, icon: Code2, color: "#007ACC" },
+  { name: "Postman", category: "Tools", level: 90, icon: Terminal, color: "#FF6C37" },
+  { name: "Google Colab", category: "Tools", level: 88, icon: Cpu, color: "#F9AB00" },
+  { name: "Figma", category: "Tools", level: 82, icon: Layout, color: "#F24E1E" },
 ];
 
 const categories = [
   { id: "Frontend", icon: Layout, desc: "UI/UX & Web Development" },
   { id: "Backend", icon: Code2, desc: "Server Logic & APIs" },
   { id: "Database", icon: Database, desc: "Data Management" },
-  { id: "Cloud", icon: Cloud, desc: "Deployment & Cloud Services" },
+  { id: "AI / ML", icon: Cpu, desc: "Intelligent Systems" },
+  { id: "Cloud & DevOps", icon: Cloud, desc: "Deployment & Services" },
+  { id: "APIs & Integration", icon: Zap, desc: "Third-party Services" },
   { id: "Tools", icon: Settings, desc: "Development Tools" },
 ];
 
 /* -------------------------------------------------------------------------- */
-/* HELPER COMPONENTS                                                          */
+/* HELPER COMPONENTS                                                         */
 /* -------------------------------------------------------------------------- */
 
 const SkillCard = ({ skill }) => {
@@ -64,6 +107,8 @@ const SkillCard = ({ skill }) => {
 
   const rotateX = useTransform(mouseYSpring, [-0.5, 0.5], ["10deg", "-10deg"]);
   const rotateY = useTransform(mouseXSpring, [-0.5, 0.5], ["-10deg", "10deg"]);
+
+  const IconComponent = skill.icon;
 
   const handleMouseMove = (e) => {
     const rect = e.currentTarget.getBoundingClientRect();
@@ -96,11 +141,11 @@ const SkillCard = ({ skill }) => {
     >
       <div style={{ transform: "translateZ(50px)" }} className="flex flex-col h-full">
         <div className="flex justify-between items-start mb-4">
-          <div 
-            className="w-12 h-12 rounded-xl flex items-center justify-center text-xl font-black shadow-inner"
+          <div
+            className="w-12 h-12 rounded-xl flex items-center justify-center text-2xl shadow-inner"
             style={{ backgroundColor: `${skill.color}20`, color: skill.color }}
           >
-            {skill.icon}
+            <IconComponent size={24} />
           </div>
           <div className="text-[10px] font-bold py-1 px-2 rounded-md bg-white/15 text-white border border-white/20 uppercase tracking-tighter">
             {skill.category}
@@ -117,7 +162,7 @@ const SkillCard = ({ skill }) => {
             <span>{skill.level}%</span>
           </div>
           <div className="h-1.5 w-full bg-white/5 rounded-full overflow-hidden">
-            <motion.div 
+            <motion.div
               initial={{ width: 0 }}
               whileInView={{ width: `${skill.level}%` }}
               transition={{ duration: 1, delay: 0.2 }}
@@ -127,7 +172,7 @@ const SkillCard = ({ skill }) => {
         </div>
       </div>
 
-      <div 
+      <div
         className="absolute inset-0 rounded-2xl opacity-0 group-hover:opacity-10 transition-opacity duration-500 pointer-events-none"
         style={{ background: `radial-gradient(circle at center, ${skill.color}, transparent)` }}
       />
@@ -136,7 +181,7 @@ const SkillCard = ({ skill }) => {
 };
 
 /* -------------------------------------------------------------------------- */
-/* MAIN COMPONENT                                                             */
+/* MAIN COMPONENT                                                            */
 /* -------------------------------------------------------------------------- */
 
 export default function SkillsSection() {
@@ -158,7 +203,6 @@ export default function SkillsSection() {
 
   return (
     <section id="skills" className="py-32 px-4 relative min-h-screen bg-background overflow-hidden">
-      
       <StarBackground />
 
       <div className="absolute top-0 left-0 w-full h-full pointer-events-none z-0">
@@ -167,7 +211,6 @@ export default function SkillsSection() {
       </div>
 
       <div className="container mx-auto max-w-7xl relative z-10">
-        
         <div className="flex flex-col lg:flex-row lg:items-end justify-between gap-8 mb-20">
           <div className="max-w-2xl text-left">
             <motion.div
@@ -178,7 +221,7 @@ export default function SkillsSection() {
               <div className="h-[2px] w-12 bg-primary" />
               <span className="text-primary font-bold uppercase tracking-[0.3em] text-xs">Capabilities</span>
             </motion.div>
-            <motion.h2 
+            <motion.h2
               initial={{ opacity: 0, y: 20 }}
               whileInView={{ opacity: 1, y: 0 }}
               className="text-5xl md:text-7xl font-black tracking-tighter text-white leading-[0.9]"
@@ -190,13 +233,13 @@ export default function SkillsSection() {
             </motion.h2>
           </div>
 
-          <motion.div 
+          <motion.div
             initial={{ opacity: 0, y: 20 }}
             whileInView={{ opacity: 1, y: 0 }}
             className="relative min-w-[300px]"
           >
             <Search className="absolute left-4 top-1/2 -translate-y-1/2 text-white/60 w-4 h-4" />
-            <input 
+            <input
               type="text"
               placeholder="Search technologies..."
               value={searchQuery}
@@ -206,7 +249,8 @@ export default function SkillsSection() {
           </motion.div>
         </div>
 
-        <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-5 gap-4 mb-16">
+        {/* Categories Grid */}
+        <div className="grid grid-cols-2 sm:grid-cols-4 lg:grid-cols-7 gap-3 mb-16">
           {categories.map((cat, idx) => {
             const Icon = cat.icon;
             const isActive = activeCategory === cat.id;
@@ -215,21 +259,21 @@ export default function SkillsSection() {
                 key={cat.id}
                 initial={{ opacity: 0, y: 20 }}
                 whileInView={{ opacity: 1, y: 0 }}
-                transition={{ delay: idx * 0.05 }}
+                transition={{ delay: idx * 0.04 }}
                 onClick={() => setActiveCategory(cat.id)}
                 className={cn(
-                  "relative flex flex-col items-center justify-center p-6 rounded-2xl border transition-all duration-300 group backdrop-blur-sm",
-                  isActive 
-                    ? "bg-primary border-primary text-primary-foreground shadow-2xl shadow-primary/20" 
+                  "relative flex flex-col items-center justify-center p-4 md:p-5 rounded-2xl border transition-all duration-300 group backdrop-blur-sm",
+                  isActive
+                    ? "bg-primary border-primary text-primary-foreground shadow-2xl shadow-primary/20"
                     : "bg-white/8 border-white/20 text-white/80 hover:bg-white/12 hover:border-white/30"
                 )}
               >
-                <Icon className={cn("mb-3 transition-transform duration-500", !isActive && "text-primary group-hover:scale-110")} size={24} />
-                <span className="text-[11px] font-bold uppercase tracking-widest leading-none text-center">
+                <Icon className={cn("mb-2 transition-transform duration-500", !isActive && "text-primary group-hover:scale-110")} size={22} />
+                <span className="text-[10px] md:text-[11px] font-bold uppercase tracking-wider leading-tight text-center">
                   {cat.id}
                 </span>
                 {isActive && (
-                  <motion.div 
+                  <motion.div
                     layoutId="pill"
                     className="absolute inset-0 bg-primary rounded-2xl -z-10 shadow-[0_0_20px_rgba(var(--primary),0.4)]"
                   />
@@ -239,7 +283,7 @@ export default function SkillsSection() {
           })}
         </div>
 
-        <motion.div 
+        <motion.div
           layout
           className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6"
         >
@@ -251,8 +295,8 @@ export default function SkillsSection() {
         </motion.div>
 
         {filteredSkills.length === 0 && (
-          <motion.div 
-            initial={{ opacity: 0 }} 
+          <motion.div
+            initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
             className="py-32 text-center"
           >
@@ -264,7 +308,7 @@ export default function SkillsSection() {
           </motion.div>
         )}
 
-        <motion.div 
+        <motion.div
           initial={{ opacity: 0 }}
           whileInView={{ opacity: 1 }}
           className="mt-24 pt-8 border-t border-white/20 flex flex-wrap justify-between items-center gap-8"
@@ -276,7 +320,7 @@ export default function SkillsSection() {
             </div>
             <div>
               <div className="text-3xl font-black text-white">{categories.length}</div>
-              <div className="text-[10px] uppercase font-bold text-white/80 tracking-widest">Specializations</div>
+              <div className="text-[10px] uppercase font-bold text-white/80 tracking-widest">Categories</div>
             </div>
           </div>
         </motion.div>
