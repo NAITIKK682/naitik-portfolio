@@ -1,140 +1,439 @@
-import { useEffect, useState } from "react";
+import { useEffect, useState, useRef } from "react";
 import { cn } from "../lib/utils";
-import { Menu, X, Rocket, Home, User, Cpu, Briefcase, MessageSquare, ArrowRight } from "lucide-react";
+import {
+  Menu,
+  X,
+  Rocket,
+  Home,
+  User,
+  Cpu,
+  Briefcase,
+  MessageSquare,
+  ArrowRight,
+  ChevronRight,
+  Zap,
+  Star,
+  Shield,
+  ExternalLink,
+} from "lucide-react";
 import { motion, AnimatePresence } from "framer-motion";
 
 const navItems = [
-  { name: "Home", href: "#hero", icon: Home },
-  { name: "About", href: "#about", icon: User },
-  { name: "Skills", href: "#skills", icon: Cpu },
-  { name: "Projects", href: "#projects", icon: Briefcase },
-  { name: "Contact", href: "#contact", icon: MessageSquare },
+  { name: "Home", href: "#hero", icon: Home, description: "Welcome & Landing Overview" },
+  { name: "About", href: "#about", icon: User, description: "Background & Professional Journey" },
+  { name: "Skills", href: "#skills", icon: Cpu, description: "Technical Stack & Expertise" },
+  { name: "Projects", href: "#projects", icon: Briefcase, description: "Featured Production Works" },
+  { name: "Contact", href: "#contact", icon: MessageSquare, description: "Get in Touch & Inquiries" },
+];
+
+const quickHighlights = [
+  { title: "Full-Stack AI Solutions", icon: Zap },
+  { title: "Awwwards-Level Design", icon: Star },
+  { title: "Scalable Architecture", icon: Shield },
 ];
 
 export default function Navbar() {
   const [isScrolled, setIsScrolled] = useState(false);
   const [isMenuOpen, setIsMenuOpen] = useState(false);
+  const [activeSection, setActiveSection] = useState("hero");
+  const [hoveredIndex, setHoveredIndex] = useState(null);
+  const lastScrollY = useRef(0);
 
   useEffect(() => {
     const handleScroll = () => {
-      setIsScrolled(window.scrollY > 40);
+      const currentScrollY = window.scrollY;
+
+      if (currentScrollY > 20) {
+        setIsScrolled(true);
+      } else {
+        setIsScrolled(false);
+      }
+
+      lastScrollY.current = currentScrollY;
     };
-    window.addEventListener("scroll", handleScroll);
-    return () => window.removeEventListener("scroll", handleScroll);
+
+    const handleIntersection = (entries) => {
+      entries.forEach((entry) => {
+        if (entry.isIntersecting) {
+          setActiveSection(entry.target.id);
+        }
+      });
+    };
+
+    const observer = new IntersectionObserver(handleIntersection, {
+      threshold: 0.3,
+    });
+
+    const sections = document.querySelectorAll("section[id]");
+    sections.forEach((section) => observer.observe(section));
+
+    window.addEventListener("scroll", handleScroll, { passive: true });
+    return () => {
+      window.removeEventListener("scroll", handleScroll);
+      sections.forEach((section) => observer.unobserve(section));
+    };
   }, []);
 
+  // Lock body scroll when mobile/tablet full-screen overlay is opened
+  useEffect(() => {
+    if (isMenuOpen) {
+      document.body.style.overflow = "hidden";
+    } else {
+      document.body.style.overflow = "unset";
+    }
+    return () => {
+      document.body.style.overflow = "unset";
+    };
+  }, [isMenuOpen]);
+
   return (
-    <header
-      className={cn(
-        "fixed w-full z-50 transition-all duration-500 flex justify-center px-4",
-        isScrolled ? "top-6" : "top-0"
-      )}
-    >
-      <nav
+    <>
+      {/* 
+        Top Header Navigation Bar 
+        - Hides completely when scrolling down on all screens.
+      */}
+      <header
         className={cn(
-          "transition-all duration-500 ease-in-out flex items-center justify-between",
-          isScrolled 
-            ? "w-full max-w-5xl bg-slate-900/60 backdrop-blur-2xl border border-white/10 rounded-[2rem] px-8 py-3 shadow-[0_20px_50px_rgba(0,0,0,0.5)]" 
-            : "w-full bg-transparent px-10 py-8"
+          "fixed top-0 inset-x-0 z-50 transition-all duration-500 ease-in-out flex justify-center px-4 sm:px-6 lg:px-8",
+          isScrolled
+            ? "-translate-y-full opacity-0 pointer-events-none"
+            : "translate-y-0 opacity-100 pointer-events-auto"
         )}
       >
-        {/* Logo Section */}
-        <a href="#hero" className="flex items-center gap-3 group relative">
-          <div className="w-11 h-11 bg-primary rounded-2xl flex items-center justify-center transform group-hover:rotate-[15deg] transition-all duration-500 shadow-[0_0_25px_rgba(var(--primary),0.4)]">
-            <Rocket className="text-white shrink-0" size={22} />
-          </div>
-          <div className="flex flex-col">
-            <span className="text-xl font-black tracking-tighter text-white leading-none">NAITIK</span>
-            <span className="text-[10px] font-bold text-primary uppercase tracking-[0.3em] leading-none mt-1">Kushwaha</span>
-          </div>
-        </a>
-
-        {/* Desktop Menu */}
-        <div className="hidden md:flex items-center gap-1 bg-white/[0.03] p-1.5 rounded-full border border-white/10 backdrop-blur-md">
-          {navItems.map((item) => (
-            <a
-              key={item.name}
-              href={item.href}
-              className="relative px-5 py-2 text-xs font-bold uppercase tracking-widest text-slate-300 hover:text-white transition-all group"
-            >
-              <span className="relative z-10">{item.name}</span>
-              <motion.span 
-                className="absolute inset-0 bg-primary/10 rounded-full opacity-0 group-hover:opacity-100 transition-opacity"
-                layoutId="navHover"
-              />
-            </a>
-          ))}
-        </div>
-
-        {/* CTA Button */}
-        <div className="hidden md:flex items-center">
-          <motion.a 
-            whileHover={{ scale: 1.05 }}
-            whileTap={{ scale: 0.95 }}
-            href="#contact" 
-            className="group flex items-center gap-2 px-6 py-2.5 rounded-full bg-primary text-white text-xs font-black uppercase tracking-widest hover:shadow-[0_10px_20px_-5px_rgba(var(--primary),0.5)] transition-all whitespace-nowrap"
+        <nav className="w-full max-w-7xl mx-auto flex items-center justify-between py-6 md:py-8 bg-transparent">
+          {/* Brand Logo Section */}
+          <a
+            href="#hero"
+            className="flex items-center gap-3.5 group relative focus:outline-none focus:ring-2 focus:ring-primary/50 rounded-2xl p-1 transition-all"
+            aria-label="NAITIK Kushwaha - Home"
           >
-            Hire Me <ArrowRight size={14} className="transition-transform group-hover:translate-x-1" />
-          </motion.a>
-        </div>
+            <div className="relative">
+              <div className="absolute -inset-1 bg-gradient-to-r from-primary to-violet-600 rounded-2xl blur opacity-40 group-hover:opacity-100 transition duration-500 group-hover:scale-110" />
+              <div className="w-11 h-11 sm:w-12 sm:h-12 bg-slate-900 border border-white/10 rounded-2xl flex items-center justify-center transform group-hover:rotate-[12deg] transition-all duration-500 shadow-2xl relative z-10">
+                <Rocket className="text-primary group-hover:text-white transition-colors duration-300" size={22} />
+              </div>
+            </div>
+            <div className="flex flex-col">
+              <span className="text-xl sm:text-2xl font-black tracking-tighter text-white leading-none">
+                NAITIK
+              </span>
+              <span className="text-[10px] sm:text-[11px] font-bold text-primary uppercase tracking-[0.35em] leading-none mt-1">
+                Kushwaha
+              </span>
+            </div>
+          </a>
 
-        {/* Mobile Toggle */}
-        <button
-          onClick={() => setIsMenuOpen(!isMenuOpen)}
-          className="md:hidden p-3 text-white bg-white/5 rounded-2xl border border-white/10 hover:bg-white/10 transition-all active:scale-90"
-          aria-label="Toggle menu"
-        >
-          {isMenuOpen ? <X size={22} /> : <Menu size={22} />}
-        </button>
+          {/* Desktop Only Navigation Links (lg and above) */}
+          <div className="hidden lg:flex items-center gap-1.5 bg-slate-900/60 p-2 rounded-full border border-white/10 backdrop-blur-2xl shadow-[0_10px_30px_rgba(0,0,0,0.5)]">
+            {navItems.map((item, index) => {
+              const isActive = activeSection === item.href.replace("#", "");
+              return (
+                <a
+                  key={item.name}
+                  href={item.href}
+                  onMouseEnter={() => setHoveredIndex(index)}
+                  onMouseLeave={() => setHoveredIndex(null)}
+                  className={cn(
+                    "relative px-6 py-2.5 text-xs font-bold uppercase tracking-widest transition-all duration-300 rounded-full flex items-center gap-2",
+                    isActive ? "text-white" : "text-slate-400 hover:text-slate-100"
+                  )}
+                >
+                  <span className="relative z-10 flex items-center gap-2">
+                    {item.name}
+                  </span>
 
-        {/* Mobile Fullscreen Menu */}
-        <AnimatePresence>
-          {isMenuOpen && (
-            <motion.div
-              initial={{ opacity: 0, y: -20, scale: 0.95 }}
-              animate={{ opacity: 1, y: 0, scale: 1 }}
-              exit={{ opacity: 0, y: -20, scale: 0.95 }}
-              className="fixed inset-x-4 top-24 bg-slate-900/95 backdrop-blur-3xl border border-white/10 rounded-[2.5rem] p-10 z-50 md:hidden shadow-2xl overflow-hidden"
+                  {/* Active Indicator */}
+                  {isActive && (
+                    <motion.div
+                      layoutId="activeTabHeader"
+                      className="absolute inset-0 bg-gradient-to-r from-primary/80 to-violet-600/80 rounded-full shadow-lg -z-0"
+                      transition={{ type: "spring", stiffness: 380, damping: 30 }}
+                    />
+                  )}
+
+                  {/* Hover Background */}
+                  {hoveredIndex === index && !isActive && (
+                    <motion.div
+                      layoutId="hoverTabHeader"
+                      className="absolute inset-0 bg-white/10 rounded-full -z-0"
+                      transition={{ type: "spring", stiffness: 400, damping: 35 }}
+                    />
+                  )}
+                </a>
+              );
+            })}
+          </div>
+
+          {/* Desktop Right CTA Button */}
+          <div className="hidden lg:flex items-center gap-4">
+            <motion.a
+              whileHover={{ scale: 1.05 }}
+              whileTap={{ scale: 0.95 }}
+              href="#contact"
+              className="relative group overflow-hidden flex items-center gap-2 px-7 py-3 rounded-full bg-primary text-white text-xs font-black uppercase tracking-widest shadow-[0_0_20px_rgba(var(--primary),0.4)] hover:shadow-[0_0_30px_rgba(var(--primary),0.8)] transition-all duration-300"
             >
-              <div className="absolute top-0 right-0 w-32 h-32 bg-primary/10 blur-3xl -z-10" />
-              
-              <div className="grid grid-cols-1 gap-5">
-                {navItems.map((item, i) => {
-                  const Icon = item.icon;
-                  return (
-                    <motion.a
-                      initial={{ opacity: 0, x: -20 }}
-                      animate={{ opacity: 1, x: 0 }}
-                      transition={{ delay: i * 0.1 }}
-                      key={item.name}
-                      href={item.href}
-                      onClick={() => setIsMenuOpen(false)}
-                      className="flex items-center justify-between p-5 rounded-[1.5rem] bg-white/[0.03] hover:bg-primary/10 transition-all group border border-white/5"
-                    >
-                      <div className="flex items-center gap-5">
-                        <div className="p-3 bg-slate-800 rounded-xl text-primary group-hover:bg-primary group-hover:text-white transition-all shadow-lg">
-                          <Icon size={20} />
-                        </div>
-                        <span className="text-lg font-bold text-white tracking-tight">{item.name}</span>
+              <span className="absolute inset-0 w-full h-full bg-gradient-to-r from-white/0 via-white/20 to-white/0 -translate-x-full group-hover:translate-x-full transition-transform duration-1000 ease-out" />
+              <span className="relative z-10 flex items-center gap-2">
+                Hire Me <ArrowRight size={14} className="transition-transform group-hover:translate-x-1" />
+              </span>
+            </motion.a>
+          </div>
+
+          {/* Mobile & Tablet View Header Menu Button */}
+          <div className="lg:hidden flex items-center gap-3">
+            <button
+              onClick={() => setIsMenuOpen(!isMenuOpen)}
+              className="relative group p-3 text-white bg-slate-900/80 backdrop-blur-xl rounded-2xl border border-white/15 hover:bg-white/10 transition-all active:scale-90 focus:outline-none focus:ring-2 focus:ring-primary shadow-xl"
+              aria-label="Toggle Navigation Menu"
+            >
+              <AnimatePresence mode="wait">
+                {isMenuOpen ? (
+                  <motion.div
+                    key="close"
+                    initial={{ rotate: -90, opacity: 0 }}
+                    animate={{ rotate: 0, opacity: 1 }}
+                    exit={{ rotate: 90, opacity: 0 }}
+                    transition={{ duration: 0.2 }}
+                  >
+                    <X size={24} className="text-primary" />
+                  </motion.div>
+                ) : (
+                  <motion.div
+                    key="menu"
+                    initial={{ rotate: 90, opacity: 0 }}
+                    animate={{ rotate: 0, opacity: 1 }}
+                    exit={{ rotate: -90, opacity: 0 }}
+                    transition={{ duration: 0.2 }}
+                  >
+                    <Menu size={24} />
+                  </motion.div>
+                )}
+              </AnimatePresence>
+            </button>
+          </div>
+        </nav>
+      </header>
+
+      {/* 
+        Single Floating Menu Trigger Button (For Mobile & Tablet View on Scroll)
+        - Replaces the side dots on mobile/tablet view with ONE clean, glassmorphic button.
+      */}
+      <AnimatePresence>
+        {isScrolled && (
+          <motion.button
+            initial={{ opacity: 0, scale: 0.5, y: 20 }}
+            animate={{ opacity: 1, scale: 1, y: 0 }}
+            exit={{ opacity: 0, scale: 0.5, y: 20 }}
+            transition={{ duration: 0.3 }}
+            onClick={() => setIsMenuOpen(true)}
+            className="lg:hidden fixed bottom-6 right-6 z-50 flex items-center gap-2.5 px-5 py-3.5 bg-slate-900/80 backdrop-blur-2xl border border-white/15 rounded-full text-white shadow-[0_10px_30px_rgba(0,0,0,0.8)] active:scale-95 focus:outline-none focus:ring-2 focus:ring-primary"
+            aria-label="Open Navigation Menu"
+          >
+            <div className="w-2.5 h-2.5 rounded-full bg-primary animate-pulse" />
+            <Menu size={20} className="text-white" />
+            <span className="text-xs font-extrabold uppercase tracking-widest pr-1">Menu</span>
+          </motion.button>
+        )}
+      </AnimatePresence>
+
+      {/* 
+        Side Floating Navigation Dots
+        - Appears ONLY on Desktop Screens (lg and above) on Scroll.
+      */}
+      <AnimatePresence>
+        {isScrolled && (
+          <motion.nav
+            initial={{ opacity: 0, x: 30 }}
+            animate={{ opacity: 1, x: 0 }}
+            exit={{ opacity: 0, x: 30 }}
+            transition={{ duration: 0.4, ease: "easeOut" }}
+            className="hidden lg:flex fixed right-6 top-1/2 -translate-y-1/2 z-50 flex-col gap-3 p-3 bg-slate-900/60 backdrop-blur-2xl border border-white/10 rounded-full shadow-[0_10px_40px_rgba(0,0,0,0.6)]"
+            aria-label="Quick Scroll Side Navigation"
+          >
+            {navItems.map((item) => {
+              const Icon = item.icon;
+              const isActive = activeSection === item.href.replace("#", "");
+
+              return (
+                <a
+                  key={item.name}
+                  href={item.href}
+                  className="group relative flex items-center justify-center p-1.5 focus:outline-none focus:ring-2 focus:ring-primary rounded-full"
+                  aria-label={`Scroll to ${item.name}`}
+                >
+                  {/* Tooltip Label */}
+                  <span className="absolute right-14 px-3 py-1.5 rounded-xl bg-slate-900/95 text-white text-[11px] font-bold tracking-wider uppercase backdrop-blur-md border border-white/15 opacity-0 group-hover:opacity-100 transition-all duration-300 pointer-events-none whitespace-nowrap translate-x-2 group-hover:translate-x-0 shadow-2xl">
+                    {item.name}
+                  </span>
+
+                  {/* Dot Icon Indicator */}
+                  <div
+                    className={cn(
+                      "w-9 h-9 rounded-full flex items-center justify-center transition-all duration-300 relative",
+                      isActive
+                        ? "bg-primary text-white shadow-[0_0_20px_rgba(var(--primary),0.9)] scale-110"
+                        : "bg-white/5 text-slate-400 hover:bg-white/20 hover:text-white"
+                    )}
+                  >
+                    <Icon className="w-4 h-4" />
+                    {isActive && (
+                      <motion.span
+                        layoutId="activeSideDotPulse"
+                        className="absolute inset-0 border-2 border-primary rounded-full animate-ping opacity-40 pointer-events-none"
+                      />
+                    )}
+                  </div>
+                </a>
+              );
+            })}
+          </motion.nav>
+        )}
+      </AnimatePresence>
+
+      {/* 
+        Unified Full Screen Overlay Navigation Menu (For Mobile & Tablet View)
+      */}
+      <AnimatePresence>
+        {isMenuOpen && (
+          <motion.div
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            exit={{ opacity: 0 }}
+            transition={{ duration: 0.3 }}
+            className="fixed inset-0 z-50 lg:hidden bg-slate-950/95 backdrop-blur-3xl flex flex-col justify-between p-6 sm:p-10 overflow-y-auto"
+          >
+            {/* Modal Ambient Glows */}
+            <div className="absolute top-0 right-0 w-80 h-80 bg-primary/20 rounded-full blur-[120px] pointer-events-none -z-10" />
+            <div className="absolute bottom-0 left-0 w-80 h-80 bg-violet-600/20 rounded-full blur-[120px] pointer-events-none -z-10" />
+
+            {/* Mobile/Tablet Header Bar inside Overlay */}
+            <div className="flex items-center justify-between pb-6 border-b border-white/10">
+              <a href="#hero" onClick={() => setIsMenuOpen(false)} className="flex items-center gap-3">
+                <div className="w-10 h-10 bg-primary rounded-xl flex items-center justify-center">
+                  <Rocket className="text-white" size={20} />
+                </div>
+                <div className="flex flex-col">
+                  <span className="text-lg font-black tracking-tighter text-white">NAITIK</span>
+                  <span className="text-[9px] font-bold text-primary uppercase tracking-widest">Kushwaha</span>
+                </div>
+              </a>
+              <button
+                onClick={() => setIsMenuOpen(false)}
+                className="p-3 text-slate-300 bg-white/5 rounded-2xl border border-white/10 hover:bg-white/10 transition-all"
+                aria-label="Close menu"
+              >
+                <X size={22} />
+              </button>
+            </div>
+
+            {/* Navigation Links List */}
+            <div className="my-auto py-8 grid grid-cols-1 gap-4">
+              <p className="text-[10px] font-black text-slate-500 uppercase tracking-[0.4em] mb-2 px-2">
+                Navigation Menu
+              </p>
+              {navItems.map((item, i) => {
+                const Icon = item.icon;
+                const isActive = activeSection === item.href.replace("#", "");
+
+                return (
+                  <motion.a
+                    initial={{ opacity: 0, y: 20 }}
+                    animate={{ opacity: 1, y: 0 }}
+                    transition={{ delay: i * 0.08 }}
+                    key={item.name}
+                    href={item.href}
+                    onClick={() => setIsMenuOpen(false)}
+                    className={cn(
+                      "flex items-center justify-between p-4 sm:p-5 rounded-2xl transition-all duration-300 border group",
+                      isActive
+                        ? "bg-primary/20 border-primary/40 shadow-lg shadow-primary/10"
+                        : "bg-white/[0.03] border-white/5 hover:bg-white/[0.08] hover:border-white/15"
+                    )}
+                  >
+                    <div className="flex items-center gap-4">
+                      <div
+                        className={cn(
+                          "p-3 rounded-xl transition-all duration-300",
+                          isActive
+                            ? "bg-primary text-white shadow-md shadow-primary/40"
+                            : "bg-slate-800/80 text-slate-300 group-hover:bg-primary group-hover:text-white"
+                        )}
+                      >
+                        <Icon size={20} />
                       </div>
-                      <ArrowRight className="text-primary opacity-0 group-hover:opacity-100 transition-all -translate-x-4 group-hover:translate-x-0" size={18} />
-                    </motion.a>
+                      <div className="flex flex-col">
+                        <span className="text-base sm:text-lg font-bold text-white tracking-tight">
+                          {item.name}
+                        </span>
+                        <span className="text-xs text-slate-400 font-medium line-clamp-1">
+                          {item.description}
+                        </span>
+                      </div>
+                    </div>
+                    <ChevronRight
+                      className={cn(
+                        "transition-transform duration-300",
+                        isActive
+                          ? "text-primary translate-x-1"
+                          : "text-slate-500 group-hover:text-white group-hover:translate-x-1"
+                      )}
+                      size={20}
+                    />
+                  </motion.a>
+                );
+              })}
+            </div>
+
+            {/* Bottom Footer Section */}
+            <div className="pt-6 border-t border-white/10 flex flex-col gap-6">
+              <div className="grid grid-cols-3 gap-2">
+                {quickHighlights.map((hl) => {
+                  const HlIcon = hl.icon;
+                  return (
+                    <div
+                      key={hl.title}
+                      className="flex flex-col items-center justify-center p-3 rounded-xl bg-white/[0.02] border border-white/5 text-center"
+                    >
+                      <HlIcon size={16} className="text-primary mb-1" />
+                      <span className="text-[9px] font-bold text-slate-300 leading-tight">
+                        {hl.title}
+                      </span>
+                    </div>
                   );
                 })}
               </div>
-              
-              <div className="mt-10 pt-10 border-t border-white/5 flex flex-col gap-6 items-center">
-                <p className="text-[10px] font-black text-slate-500 uppercase tracking-[0.4em]">Let's Connect</p>
-                <div className="flex justify-center gap-8">
-                   <a href="https://github.com/NAITIKK682" className="text-sm font-bold text-white/60 hover:text-primary transition-colors">GitHub</a>
-                   <a href="https://www.linkedin.com/in/naitik-kushwaha/" className="text-sm font-bold text-white/60 hover:text-primary transition-colors">LinkedIn</a>
-                   <a href="mailto:naitikk682@gmail.com" className="text-sm font-bold text-white/60 hover:text-primary transition-colors">Email</a>
+
+              <div className="flex flex-col sm:flex-row items-center justify-between gap-4">
+                <a
+                  href="#contact"
+                  onClick={() => setIsMenuOpen(false)}
+                  className="w-full sm:w-auto flex items-center justify-center gap-2 px-8 py-3.5 rounded-xl bg-primary text-white font-bold text-xs uppercase tracking-widest shadow-lg shadow-primary/30"
+                >
+                  Hire Me Now <ArrowRight size={16} />
+                </a>
+                <div className="flex items-center gap-6">
+                  <a
+                    href="https://github.com/NAITIKK682"
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="text-xs font-bold text-slate-400 hover:text-primary transition-colors flex items-center gap-1"
+                  >
+                    GitHub <ExternalLink size={12} />
+                  </a>
+                  <a
+                    href="https://www.linkedin.com/in/naitik-kushwaha/"
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="text-xs font-bold text-slate-400 hover:text-primary transition-colors flex items-center gap-1"
+                  >
+                    LinkedIn <ExternalLink size={12} />
+                  </a>
                 </div>
               </div>
-            </motion.div>
-          )}
-        </AnimatePresence>
-      </nav>
-    </header>
+            </div>
+          </motion.div>
+        )}
+      </AnimatePresence>
+    </>
   );
 }
