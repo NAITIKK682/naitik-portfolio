@@ -8,20 +8,20 @@ const projects = [
     title: "AgroVision AI",
     description:
       "Enterprise-grade AI crop disease detection system with voice assistant, real-time weather integration, and offline-first capabilities. Features a professional camera UI and automated PDF reporting.",
-    image: "/projects/agrovision.png", // Ensure this asset exists or use a placeholder
+    image: "/projects/agrovision.png",
     tags: ["React 18", "Flask", "TensorFlow", "PWA", "Tailwind"],
     liveUrl: "https://agro-vision-ily2libj3-naitikk682s-projects.vercel.app/", 
     githubUrl: "https://github.com/NAITIKK682/AgroVision-AI",
   },
   {
     id: 2,
-    title: "Agri Smart 2.0",
+    title: "Vornix Developers Agency",
     description:
-      "AI-powered farming platform providing real-time crop advice, disease detection, smart irrigation, and marketplace integration.",
-    image: "/projects/project7.png",
-    tags: ["Python", "ML", "Flask", "AI Assistant", "AgriTech"],
-    liveUrl: "https://agri-smart-2-0.vercel.app/",
-    githubUrl: "https://github.com/NAITIKK682/AgriSmart-2.0.git",
+      "Stunning, high-performance agency website featuring Three.js 3D hero scenes, Framer Motion transitions, responsive service architecture, and interactive client conversion flows.",
+    image: "/projects/vornix.png",
+    tags: ["React 18", "Three.js", "Tailwind CSS", "Framer Motion", "Vite"],
+    liveUrl: "https://vornix-developers-5d3b.onrender.com/",
+    githubUrl: "https://github.com/NAITIKK682/Vornix-Developers",
   },
   {
     id: 3,
@@ -45,21 +45,21 @@ const projects = [
   },
   {
     id: 5,
+    title: "Flexwear E-Commerce Platform",
+    description:
+      "Production-ready MERN stack e-commerce system featuring JWT authentication, Razorpay payments, product filtering, cart state management, and an enterprise admin dashboard.",
+    image: "/projects/flexwear.png",
+    tags: ["MongoDB", "Express", "React 18", "Node.js", "Razorpay", "Tailwind"],
+    githubUrl: "https://github.com/NAITIKK682/flexwear-collection",
+  },
+  {
+    id: 6,
     title: "Fake News Detection",
     description:
       "An NLP + ML project to classify news as real or fake. Built with Python, scikit-learn, and Flask with a clean UI.",
     image: "/projects/project2.jpg",
     tags: ["ML", "NLP", "Flask", "Python", "Bootstrap"],
     githubUrl: "https://github.com/NAITIKK682/Fake-News-Detection-Flask",
-  },
-  {
-    id: 6,
-    title: "Fraud Transaction Detection",
-    description:
-      "AI-powered system to detect fraudulent financial transactions using classification and anomaly detection models.",
-    image: "/projects/project6.png",
-    tags: ["Python", "ML", "Anomaly Detection", "Flask"],
-    githubUrl: "https://github.com/NAITIKK682/Fraud-Transaction-Detection",
   },
   {
     id: 7,
