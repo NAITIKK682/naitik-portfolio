@@ -3,7 +3,6 @@ import { cn } from "../lib/utils";
 import {
   Menu,
   X,
-  Rocket,
   Home,
   User,
   Cpu,
@@ -31,6 +30,33 @@ const quickHighlights = [
   { title: "Awwwards-Level Design", icon: Star },
   { title: "Scalable Architecture", icon: Shield },
 ];
+
+// 3D Stagger Flip Variants for Option 2
+const containerFlipVariants = {
+  initial: {},
+  hover: {
+    transition: {
+      staggerChildren: 0.035,
+    },
+  },
+};
+
+const letterFlipVariants = {
+  initial: {
+    rotateX: 0,
+    y: 0,
+    opacity: 1,
+  },
+  hover: {
+    rotateX: [0, -90, 0],
+    y: [0, -4, 0],
+    color: ["#ffffff", "#38bdf8", "#a855f7"],
+    transition: {
+      duration: 0.5,
+      ease: [0.16, 1, 0.3, 1],
+    },
+  },
+};
 
 export default function Navbar() {
   const [isScrolled, setIsScrolled] = useState(false);
@@ -101,27 +127,52 @@ export default function Navbar() {
         )}
       >
         <nav className="w-full max-w-7xl mx-auto flex items-center justify-between py-6 md:py-8 bg-transparent">
-          {/* Brand Logo Section */}
-          <a
+          {/* Brand Logo Section - Option 2: 3D Kinetic Depth Flip & Shimmer */}
+          <motion.a
             href="#hero"
-            className="flex items-center gap-3.5 group relative focus:outline-none focus:ring-2 focus:ring-primary/50 rounded-2xl p-1 transition-all"
+            initial="initial"
+            whileHover="hover"
+            className="flex flex-col group relative focus:outline-none focus:ring-2 focus:ring-primary/50 rounded-2xl p-2 transition-all cursor-pointer select-none [perspective:1000px]"
             aria-label="NAITIK Kushwaha - Home"
           >
-            <div className="relative">
-              <div className="absolute -inset-1 bg-gradient-to-r from-primary to-violet-600 rounded-2xl blur opacity-40 group-hover:opacity-100 transition duration-500 group-hover:scale-110" />
-              <div className="w-11 h-11 sm:w-12 sm:h-12 bg-slate-900 border border-white/10 rounded-2xl flex items-center justify-center transform group-hover:rotate-[12deg] transition-all duration-500 shadow-2xl relative z-10">
-                <Rocket className="text-primary group-hover:text-white transition-colors duration-300" size={22} />
+            {/* Ambient Backlight Glow Overlay */}
+            <div className="absolute -inset-1.5 bg-gradient-to-r from-violet-600 via-primary to-cyan-400 rounded-2xl blur-md opacity-25 group-hover:opacity-90 group-hover:blur-xl transition-all duration-500 -z-10" />
+
+            <div className="relative flex flex-col">
+              {/* NAITIK - 3D Letter Stagger Flip */}
+              <motion.div
+                variants={containerFlipVariants}
+                className="flex items-center text-xl sm:text-2xl font-black text-white leading-none tracking-tight [transform-style:preserve-3d]"
+              >
+                {"NAITIK".split("").map((char, index) => (
+                  <motion.span
+                    key={index}
+                    variants={letterFlipVariants}
+                    className="inline-block origin-center transition-colors duration-300"
+                  >
+                    {char}
+                  </motion.span>
+                ))}
+              </motion.div>
+
+              {/* KUSHWAHA - Shimmer Light Wave & Kinetic Tracking */}
+              <div className="relative mt-1 overflow-hidden">
+                <motion.span
+                  variants={{
+                    initial: { letterSpacing: "0.35em" },
+                    hover: { letterSpacing: "0.5em" },
+                  }}
+                  transition={{ duration: 0.4, ease: [0.16, 1, 0.3, 1] }}
+                  className="block text-[10px] sm:text-[11px] font-extrabold text-primary group-hover:text-cyan-300 uppercase leading-none transition-colors duration-300"
+                >
+                  Kushwaha
+                </motion.span>
+
+                {/* Metallic Shimmer Pass */}
+                <span className="absolute inset-0 bg-gradient-to-r from-transparent via-white/70 to-transparent -translate-x-full group-hover:translate-x-full transition-transform duration-1000 ease-in-out pointer-events-none" />
               </div>
             </div>
-            <div className="flex flex-col">
-              <span className="text-xl sm:text-2xl font-black tracking-tighter text-white leading-none">
-                NAITIK
-              </span>
-              <span className="text-[10px] sm:text-[11px] font-bold text-primary uppercase tracking-[0.35em] leading-none mt-1">
-                Kushwaha
-              </span>
-            </div>
-          </a>
+          </motion.a>
 
           {/* Desktop Only Navigation Links (lg and above) */}
           <div className="hidden lg:flex items-center gap-1.5 bg-slate-900/60 p-2 rounded-full border border-white/10 backdrop-blur-2xl shadow-[0_10px_30px_rgba(0,0,0,0.5)]">
@@ -216,7 +267,6 @@ export default function Navbar() {
 
       {/* 
         Single Floating Menu Trigger Button (For Mobile & Tablet View on Scroll)
-        - Replaces the side dots on mobile/tablet view with ONE clean, glassmorphic button.
       */}
       <AnimatePresence>
         {isScrolled && (
@@ -238,7 +288,6 @@ export default function Navbar() {
 
       {/* 
         Side Floating Navigation Dots
-        - Appears ONLY on Desktop Screens (lg and above) on Scroll.
       */}
       <AnimatePresence>
         {isScrolled && (
@@ -308,14 +357,15 @@ export default function Navbar() {
 
             {/* Mobile/Tablet Header Bar inside Overlay */}
             <div className="flex items-center justify-between pb-6 border-b border-white/10">
-              <a href="#hero" onClick={() => setIsMenuOpen(false)} className="flex items-center gap-3">
-                <div className="w-10 h-10 bg-primary rounded-xl flex items-center justify-center">
-                  <Rocket className="text-white" size={20} />
-                </div>
-                <div className="flex flex-col">
-                  <span className="text-lg font-black tracking-tighter text-white">NAITIK</span>
-                  <span className="text-[9px] font-bold text-primary uppercase tracking-widest">Kushwaha</span>
-                </div>
+              <a
+                href="#hero"
+                onClick={() => setIsMenuOpen(false)}
+                className="flex flex-col group relative"
+              >
+                <span className="text-lg font-black tracking-tighter text-white">NAITIK</span>
+                <span className="text-[9px] font-bold text-primary uppercase tracking-[0.3em]">
+                  Kushwaha
+                </span>
               </a>
               <button
                 onClick={() => setIsMenuOpen(false)}
