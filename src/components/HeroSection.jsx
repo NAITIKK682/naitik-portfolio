@@ -172,7 +172,7 @@ export default function HeroSection() {
           transition={{ repeat: Infinity, duration: 2, ease: "easeInOut" }}
           className="flex flex-col items-center"
         >
-          <span className="text-[9px] uppercase tracking-[0.3em] text-slate-400 font-bold mb-1.5">
+          <span className="text-[9px] uppercase tracking-[0.3em] text-slate-400 font-bold mb-1git push -u origin main.5">
             Scroll
           </span>
           <div className="w-[1.5px] h-8 bg-gradient-to-b from-primary via-primary/40 to-transparent rounded-full shadow-[0_0_8px_rgba(var(--primary),0.4)]" />
