@@ -5,6 +5,16 @@ import { motion } from "framer-motion";
 const projects = [
   {
     id: 1,
+    title: "ProfessorMind AI",
+    description:
+      "Professor-centric multimodal AI learning assistant using Retrieval-Augmented Generation (RAG) for private lecture knowledge retrieval. Features PDF ingestion, semantic search, notebook isolation, source-aware answers, and local LLM inference using Llama 3.2 via Ollama.",
+    image: "/projects/professormind.png", // Make sure to add this image to your public/projects folder
+    tags: ["React", "TypeScript", "FastAPI", "Python", "RAG", "FAISS", "Ollama"],
+    liveUrl: "https://professormind-ai.vercel.app/dashboard",
+    githubUrl: "https://github.com/NAITIKK682/ProfessorMindAI",
+  },
+  {
+    id: 2,
     title: "AgroVision AI",
     description:
       "Enterprise-grade AI crop disease detection system with voice assistant, real-time weather integration, and offline-first capabilities. Features a professional camera UI and automated PDF reporting.",
@@ -16,7 +26,7 @@ const projects = [
   },
 
   {
-    id: 2,
+    id: 3,
     title: "EHR System with AI Chatbot",
     description:
       "Electronic Health Record system with integrated AI chatbot for patient assistance and medical data management.",
@@ -27,7 +37,7 @@ const projects = [
   },
 
   {
-    id: 3,
+    id: 4,
     title: "Flexwear E-Commerce Platform",
     description:
       "Production-ready MERN stack e-commerce system featuring JWT authentication, Razorpay payments, product filtering, cart state management, and an enterprise admin dashboard.",
@@ -44,7 +54,7 @@ const projects = [
   },
 
   {
-    id: 4,
+    id: 5,
     title: "Aster & Row RAG Support Agent",
     description:
       "Reliable AI customer support agent built with a Retrieval-Augmented Generation pipeline, Chroma vector search, Groq Llama 3.3 70B, secure order lookup, and session-based conversation memory.",
@@ -62,7 +72,7 @@ const projects = [
   },
 
   {
-    id: 5,
+    id: 6,
     title: "Fake News Detection",
     description:
       "An NLP + ML project to classify news as real or fake. Built with Python, scikit-learn, and Flask with a clean UI.",
@@ -73,7 +83,7 @@ const projects = [
   },
 
   {
-    id: 6,
+    id: 7,
     title: "Vornix Developers Agency",
     description:
       "Stunning, high-performance agency website featuring Three.js 3D hero scenes, Framer Motion transitions, responsive service architecture, and interactive client conversion flows.",
@@ -90,7 +100,7 @@ const projects = [
   },
 
   {
-    id: 7,
+    id: 8,
     title: "TasteMelt Restaurant Website",
     description:
       "A premium, responsive restaurant website featuring dynamic menus and reservation systems built with modern web tech.",
@@ -274,4 +284,3 @@ export default function ProjectsSection() {
     </section>
   );
 }
-
